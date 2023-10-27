@@ -14,8 +14,10 @@
     <span th:text="${person.getSurname()}"></span>
     <span th:text="${person.getEmail()}"></span>
 
-    <a th:href = "@{/people/update/{id}(id=${person.getId()})}">Update</a>
-    <a th:href = "@{/people/delete/{id}(id=${person.getId()})}">Delete</a>
+    <a th:href="@{/people/update/{id}(id=${person.getId()})}">Update</a>
+    <form th:method="DELETE" th:action="@{/people/delete/{id}(id=${person.getId()})}">
+        <input type="submit" value="Delete"/>
+    </form>
 </div>
 </body>
 </html>
