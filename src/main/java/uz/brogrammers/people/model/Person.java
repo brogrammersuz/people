@@ -1,7 +1,12 @@
 package uz.brogrammers.people.model;
 
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Person {
     private Integer id;
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 3, max = 20, message = "Name should contain at least 3 and at most 20 characters")
     private String name;
     private String surname;
     private String email;

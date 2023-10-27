@@ -1,8 +1,10 @@
 package uz.brogrammers.people.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.brogrammers.people.dao.PersonDao;
 import uz.brogrammers.people.model.Person;
@@ -53,7 +55,13 @@ public class PeopleController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("person") Person person) {
+    public String create(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
+
+        System.out.println(bindingResult.getModel().entrySet().toArray());
+
+        if (bindingResult.hasErrors()) {
+            return "people/create";
+        }
         personDao.addPerson(person);
         return "redirect:/people";
     }
