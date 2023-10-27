@@ -57,12 +57,10 @@ public class PersonDao {
     }
 
     public void delete(Integer id) {
-        this.people = this.people.stream()
-                .filter((person -> !(person.getId() == id)))
-                .toList();
+        this.people.removeIf(person -> person.getId() == id);
     }
 
-    public void delete(Person person){
+    public void delete(Person person) {
         this.people.remove(person);
     }
 
