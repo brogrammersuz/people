@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.brogrammers.people.dao.PersonDao;
 import uz.brogrammers.people.model.Person;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -34,6 +35,15 @@ public class PeopleController {
         return "people/person";
     }
 
+    @GetMapping("/search")
+    public String getById(@RequestParam(value = "name") String name, Model model) {
+
+        List<Person> list = personDao.getPeopleByName(name);
+        model.addAttribute("people", list);
+
+        return "people/index";
+    }
+
     @GetMapping("/create")
     public String getCreateForm(Model model) {
         var person = new Person();
@@ -48,7 +58,6 @@ public class PeopleController {
         return "redirect:/people";
     }
 
-
     @GetMapping("/update/{id}")
     public String getUpdateForm(@PathVariable("id") Integer id, Model model) {
         var person = personDao.getPersonById(id);
@@ -56,14 +65,19 @@ public class PeopleController {
         if (person.isPresent())
             model.addAttribute("person", person.get());
 
-        return "people/update";
+        return "people/create";
     }
 
-    @PostMapping("/update/{id}")
-    public String update(@PathVariable("id") Integer id, @ModelAttribute("person") Person person) {
-        System.out.println(id);
-        System.out.println(person.getId());
-        personDao.update(id, person);
+    @PostMapping("/update")
+    public String update(@ModelAttribute("person") Person person) {
+        personDao.update(person);
+        return "redirect:/people";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id) {
+        personDao.delete(id);
+
         return "redirect:/people";
     }
 

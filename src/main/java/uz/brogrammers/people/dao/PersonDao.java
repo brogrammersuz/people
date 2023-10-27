@@ -25,34 +25,45 @@ public class PersonDao {
         this.people.add(person);
     }
 
-    public Person getPerson(Integer id) {
-        if (id < (this.people.size())) {
-            return this.people.get(id);
-        }
-        return null;
-    }
-
     public Optional<Person> getPersonById(Integer id) {
         return people.stream()
                 .filter(person -> person.getId() == id)
                 .findFirst();
     }
 
+    public Optional<Person> getPersonByName(String name) {
+        return people.stream()
+                .filter(person -> person.getName().equals(name))
+                .findFirst();
+    }
+
+    public List<Person> getPeopleByName(String name) {
+        return people.stream()
+                .filter(person -> person.getName().equals(name))
+                .toList();
+    }
+
     public List<Person> getAll() {
         return this.people;
     }
 
-    public void update(Integer id, Person person) {
-        var foundPerson = getPersonById(id);
-        if (foundPerson.isPresent()) {
+    public void update(Person person) {
+        var optionalPerson = getPersonById(person.getId());
+        if (optionalPerson.isPresent()) {
+            var foundPerson = optionalPerson.get();
             var index = people.indexOf(foundPerson);
-            System.out.println(index);
             people.set(index, person);
         }
     }
 
     public void delete(Integer id) {
-        this.people.remove(id);
+        this.people = this.people.stream()
+                .filter((person -> !(person.getId() == id)))
+                .toList();
+    }
+
+    public void delete(Person person){
+        this.people.remove(person);
     }
 
 }

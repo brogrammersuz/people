@@ -11,6 +11,11 @@
         <span th:text="${person.getId()}"></span>
     </a>
     <span th:text="${person.getName()}"></span>
+    <span th:text="${person.getSurname()}"></span>
+    <span th:text="${person.getEmail()}"></span>
+
+    <a th:href = "@{/people/update/{id}(id=${person.getId()})}">Update</a>
+    <a th:href = "@{/people/delete/{id}(id=${person.getId()})}">Delete</a>
 </div>
 </body>
 </html>

@@ -8,7 +8,9 @@
 
 <div style="width:200px; display:block; margin:auto; margin-top:100px; padding:20px; border:1px solid black">
 
-    <form th:method="POST" th:action="@{/people/create" th:object="${person}">
+    <form th:method="POST" th:action="${person.getId()} == null ? @{/people/create} : @{/people/update}" th:object="${person}">
+        <input name="id" th:field="*{id}" hidden="hidden" type="number" id="id"/>
+
         <label for="name"> Name</label>
         <input name="name" th:field="*{name}" type="text" id="name"/>
 
